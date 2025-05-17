@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  database:
+    image: mariadb:lts
+    environment:
+      - MYSQL_ROOT_PASSWORD=AdneL1nG3r0
+      - MYSQL_DATABASE=dashboard
+    command: --max_connections=2000
+    ports:
+      - 3320:3306
+    volumes:
+      - database-volume:/var/lib/mysql
+
+  app:
+    image: ghcr.io/seurepositorio/seuprojeto:latest
+    environment:
+      - DATABASE_URL=mysql://root:AdneL1nG3r0@database:3306/dashboard
+      - JWT_SECRET=j3sGJ8uySgZRWV2p7cT46K8h
+    ports:
+      - 4020:3000
+    depends_on:
+      - database
+
+volumes:
+  database-volume:
